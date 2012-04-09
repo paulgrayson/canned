@@ -1,8 +1,46 @@
 body {
-  padding: 50px;
+  margin: 0;
+  padding: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
 }
+
+#main, #chat, #compose {
+  width: 320px;
+}
+
+#main {
+  margin: 0 auto;
+}
+
+#chat {
+  height: 320px;
+  border: 1px solid #eee;
+  padding: 5px;
+}
+
+.message {
+  border-bottom: 1px solid #eee;
+  padding: 5px 0;
+}
+
+.message.auto {
+  font-style: italic;
+}
+
+#compose {
+  padding: 5px;
+}
+
+#compose-text {
+  width: 240px;
+}
+
+.red {
+  background-color: red;
+  color: white;
+}
+
