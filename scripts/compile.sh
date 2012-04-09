@@ -1,2 +1,2 @@
-coffee -w -c -j bin/canned.js src/*.cs
+coffee -w -c -j lib/canned.js src/*.cs
 
