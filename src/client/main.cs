@@ -3,7 +3,9 @@ Canned = ->
   $composeSubmit = $('#compose-submit')
 
   $composeSubmit.click( =>
-    this.canned.addChat( 'red', $composeText.attr('value') )
+    if !_.isEmpty( $composeText.attr( 'value' ) )
+      this.canned.addChat( 'red', $composeText.attr('value') )
+      $composeText.attr( 'value', '' )
   )
 
   # init scroll panes

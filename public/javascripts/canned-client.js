@@ -7,7 +7,10 @@
     $composeText = $('#compose-text');
     $composeSubmit = $('#compose-submit');
     $composeSubmit.click(function() {
-      return _this.canned.addChat('red', $composeText.attr('value'));
+      if (!_.isEmpty($composeText.attr('value'))) {
+        _this.canned.addChat('red', $composeText.attr('value'));
+        return $composeText.attr('value', '');
+      }
     });
     $('.scroll-pane').jScrollPane();
     return {
