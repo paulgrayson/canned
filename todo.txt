@@ -1,6 +1,6 @@
 TODO:
 
-* User can see empty chat page
+D User can see empty chat page
 * User gets assigned a colour
 * User can view chat
 * New user gets announced in chat

@@ -10,9 +10,9 @@ console.log( port )
 db = new Db( 'canned', new Server( host, port, {} ), {} )
 
 db.open( ( err, db )->
-  console.log( "db:" )
-  console.log( db )
-  console.log( err )
+  db.collection( 'colors', ( err, colors )->
+    console.log( colors )
+  )
 )
 
 

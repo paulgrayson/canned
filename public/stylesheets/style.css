@@ -44,3 +44,17 @@ a {
   color: white;
 }
 
+.blue {
+  background-color: #00a;
+  color: white;
+}
+
+.yellow {
+  background-color: yellow;
+  color: black;
+}
+
+.black {
+  background-color: black;
+  color: yellow;
+}
