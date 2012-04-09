@@ -2,6 +2,8 @@
   "name" : "canned"
   , "version" : "1.0.0"
   , "dependencies" : {
-    "express" : "1.0.0"
+    "connect" : "0.5.10"
+    , "express" : "2.5.8"
+    , "jade" : "0.20.0" 
   }
 }
