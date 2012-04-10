@@ -22,11 +22,15 @@
         });
       }
     });
-    $composeText.keyup(function() {
-      return socket.emit('typed', {
-        color: _this.canned.color,
-        text: $composeText.attr('value')
-      });
+    $composeText.keyup(function(e) {
+      if (e.keyCode === 13) {
+        return $composeSubmit.click();
+      } else {
+        return socket.emit('typed', {
+          color: _this.canned.color,
+          text: $composeText.attr('value')
+        });
+      }
     });
     $('.scroll-pane').jScrollPane();
     socket = io.connect('http://localhost:3000');

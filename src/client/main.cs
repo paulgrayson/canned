@@ -18,11 +18,14 @@ Canned = ->
       })
   )
 
-  $composeText.keyup( =>
-    socket.emit('typed', {
-      color: this.canned.color,
-      text: $composeText.attr( 'value' )
-    })
+  $composeText.keyup( ( e )=>
+    if e.keyCode == 13
+      $composeSubmit.click()
+    else
+      socket.emit('typed', {
+        color: this.canned.color,
+        text: $composeText.attr( 'value' )
+      })
   )
 
   # init scroll panes
