@@ -1,10 +1,11 @@
 TODO:
 
 D User can see empty chat page
-* User gets assigned a colour
+* User gets assigned a id which is remembered using a long lived cookie
+* User gets assigned a color based on the least recently used
 * User can view chat
 * New user gets announced in chat
-* User can add a chat message
+* User can add a chat message, clicking or pressing return to submit
 * User can see what other users are typing
 * User see announcement when others leave chat
 

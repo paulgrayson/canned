@@ -4,8 +4,7 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
-  , _ = require('underscore');
+  , canned = require('./lib/canned-server');
 
 var app = module.exports = express.createServer();
 
@@ -32,33 +31,12 @@ app.configure('production', function(){
 
 // Routes
 
-app.get('/', routes.index);
+app.get('/', canned.routes.index);
 
 // Sockets
 
-var colors = ['red', 'blue', 'yellow', 'black'];
-var usedColors = {};
-_.each(colors, function(e){
-  console.log( e );
-  usedColors[e] = null;
-});
-
 io.sockets.on('connection', function (socket) {
-  color = _.find( colors, function( color ) {
-    return usedColors[color] === null;
-  });
-  usedColors[color] = true;
-  console.log( "color "+ color )
-  socket.emit("welcome", {color: color});
-  socket.on('chat', function (data) {
-    console.log(data);
-    socket.broadcast.emit('chat', data);
-  });
-  socket.broadcast.emit('joined', {color: color});
-  socket.on('typed', function (data) {
-    console.log( data );
-    socket.broadcast.emit('typed', data);
-  });
+  canned.sockets.connected( socket );
 });
 
 app.listen(3000, function(){

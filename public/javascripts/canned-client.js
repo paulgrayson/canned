@@ -11,6 +11,10 @@
     $composeSubmit.click(function() {
       if (!_.isEmpty($composeText.attr('value'))) {
         _this.canned.addChat(_this.canned.color, $composeText.attr('value'));
+        socket.emit('chat', {
+          color: _this.canned.color,
+          text: $composeText.attr('value')
+        });
         $composeText.attr('value', '');
         return socket.emit('typed', {
           color: _this.canned.color,
@@ -53,13 +57,7 @@
         m = $("#chat");
         api = m.jScrollPane().data('jsp');
         api.getContentPane().append("<div class='message " + color + "'>" + text + "</div>");
-        api.reinitialise();
-        if (color === _this.canned.color) {
-          return socket.emit('chat', {
-            color: color,
-            text: text
-          });
-        }
+        return api.reinitialise();
       }
     };
   };

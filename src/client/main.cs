@@ -7,6 +7,10 @@ Canned = ->
   $composeSubmit.click( =>
     if !_.isEmpty( $composeText.attr( 'value' ) )
       this.canned.addChat( this.canned.color, $composeText.attr('value') )
+      socket.emit('chat', {
+        color: this.canned.color,
+        text: $composeText.attr('value')
+      });
       $composeText.attr( 'value', '' )
       socket.emit('typed', {
         color: this.canned.color,
@@ -52,12 +56,6 @@ Canned = ->
       api = m.jScrollPane().data('jsp')
       api.getContentPane().append( "<div class='message #{color}'>#{text}</div>" )
       api.reinitialise()
-      # only broadcast own chats - probably better to make this separate
-      if color == this.canned.color
-        socket.emit('chat', {
-          color: color,
-          text: text
-        });
   }
 
 $( -> window.canned = Canned() )
