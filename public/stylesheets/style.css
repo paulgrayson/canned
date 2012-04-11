@@ -8,6 +8,10 @@ a {
   color: #00B7FF;
 }
 
+.hidden {
+  display: none;
+}
+
 #main, #chat, #compose {
   width: 320px;
 }

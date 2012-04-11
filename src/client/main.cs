@@ -1,4 +1,5 @@
 Canned = ->
+  userid = $('#userid').text()
   $compose = $('#compose')
   $composeText = $('#compose-text')
   $composeSubmit = $('#compose-submit')
@@ -6,14 +7,15 @@ Canned = ->
 
   $composeSubmit.click( =>
     if !_.isEmpty( $composeText.attr( 'value' ) )
-      this.canned.addChat( this.canned.color, $composeText.attr('value') )
+      this.canned.addChat( this.canned.color, userid, $composeText.attr('value') )
       socket.emit('chat', {
-        color: this.canned.color,
+        userid: userid
         text: $composeText.attr('value')
       });
       $composeText.attr( 'value', '' )
       socket.emit('typed', {
-        color: this.canned.color,
+        userid: userid
+        color: this.canned.color
         text: ''
       })
   )
@@ -23,7 +25,8 @@ Canned = ->
       $composeSubmit.click()
     else
       socket.emit('typed', {
-        color: this.canned.color,
+        color: this.canned.color
+        userid: userid
         text: $composeText.attr( 'value' )
       })
   )
@@ -31,30 +34,31 @@ Canned = ->
   # init scroll panes
   $('.scroll-pane').jScrollPane()
 
-  socket = io.connect('http://localhost:3000');
+  socket = io.connect('http://localhost:3000')
+  socket.emit( 'set userid', userid ) 
   socket.on('welcome', ( data )=>
     this.canned.color = data.color
     $compose.addClass( data.color )
   )  
   socket.on('joined', ( data )=>
-    this.canned.addChat( this.canned.color, "#{data.color} joined" )
-    $composeOthers.append($("<div>").addClass( data.color ).text( "" ))
+    this.canned.addChat( this.canned.color, data.userid, "#{data.color} joined" )
+    $composeOthers.append($("<div>").attr( 'id', data.userid ).addClass( data.color ).text( "" ))
   )
   socket.on('chat', ( data )=>
-    this.canned.addChat( data.color, data.text )
+    this.canned.addChat( data.color, data.userid, data.text )
   )
   socket.on('typed', ( data )->
-    other = $composeOthers.find(".#{data.color}")
+    other = $("##{data.userid}")
     if other.length == 0
-      $composeOthers.append($("<div>").addClass( data.color ).text( data.text ))
+      $composeOthers.append($("<div>").attr( 'id', data.userid ).addClass( data.color ).text( data.text ))
     else
-      $composeOthers.find(".#{data.color}").text( data.text );
+      other.text( data.text );
   )
 
   return {
     color: null
 
-    addChat: (color, text)=>
+    addChat: ( color, userid, text )=>
       m = $("#chat")
       api = m.jScrollPane().data('jsp')
       api.getContentPane().append( "<div class='message #{color}'>#{text}</div>" )
