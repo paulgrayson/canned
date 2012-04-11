@@ -9,6 +9,7 @@ Canned = ->
     if !_.isEmpty( $composeText.attr( 'value' ) )
       this.canned.addChat( this.canned.color, userid, $composeText.attr('value') )
       socket.emit('chat', {
+        color: this.canned.color
         userid: userid
         text: $composeText.attr('value')
       });
@@ -39,9 +40,11 @@ Canned = ->
   socket.on('welcome', ( data )=>
     this.canned.color = data.color
     $compose.addClass( data.color )
+    for message in data.chat
+      this.canned.addChat( message.color, message.userid, message.text )
   )  
   socket.on('joined', ( data )=>
-    this.canned.addChat( this.canned.color, data.userid, "#{data.color} joined" )
+    this.canned.addChat( 'white', data.userid, "<i>#{data.color} joined</i>" )
     $composeOthers.append($("<div>").attr( 'id', data.userid ).addClass( data.color ).text( "" ))
   )
   socket.on('chat', ( data )=>

@@ -13,6 +13,7 @@
       if (!_.isEmpty($composeText.attr('value'))) {
         _this.canned.addChat(_this.canned.color, userid, $composeText.attr('value'));
         socket.emit('chat', {
+          color: _this.canned.color,
           userid: userid,
           text: $composeText.attr('value')
         });
@@ -39,11 +40,19 @@
     socket = io.connect('http://localhost:3000');
     socket.emit('set userid', userid);
     socket.on('welcome', function(data) {
+      var message, _i, _len, _ref, _results;
       _this.canned.color = data.color;
-      return $compose.addClass(data.color);
+      $compose.addClass(data.color);
+      _ref = data.chat;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        message = _ref[_i];
+        _results.push(_this.canned.addChat(message.color, message.userid, message.text));
+      }
+      return _results;
     });
     socket.on('joined', function(data) {
-      _this.canned.addChat(_this.canned.color, data.userid, "" + data.color + " joined");
+      _this.canned.addChat('white', data.userid, "<i>" + data.color + " joined</i>");
       return $composeOthers.append($("<div>").attr('id', data.userid).addClass(data.color).text(""));
     });
     socket.on('chat', function(data) {
