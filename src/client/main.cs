@@ -45,7 +45,7 @@ Canned = ->
   )  
   socket.on('joined', ( data )=>
     this.canned.addChat( 'white', data.userid, "<i>#{data.color} joined</i>" )
-    $composeOthers.append($("<div>").attr( 'id', data.userid ).addClass( data.color ).text( "" ))
+    $el = $composeOthers.append($("<div>").attr( 'id', data.userid ).addClass( data.color ).text( "" ))
   )
   socket.on('chat', ( data )=>
     this.canned.addChat( data.color, data.userid, data.text )
@@ -55,7 +55,10 @@ Canned = ->
     if other.length == 0
       $composeOthers.append($("<div>").attr( 'id', data.userid ).addClass( data.color ).text( data.text ))
     else
-      other.text( data.text );
+      if _.isEmpty( data.text )
+        other.text( "" )
+      else
+        other.text( "> #{data.text}.." )
   )
 
   return {
@@ -64,8 +67,9 @@ Canned = ->
     addChat: ( color, userid, text )=>
       m = $("#chat")
       api = m.jScrollPane().data('jsp')
-      api.getContentPane().append( "<div class='message #{color}'>#{text}</div>" )
+      $el = api.getContentPane().append( "<div class='message #{color}'>#{text}</div>" )
       api.reinitialise()
+      api.scrollToElement( $el, false, false )
   }
 
 $( -> window.canned = Canned() )

@@ -52,8 +52,9 @@
       return _results;
     });
     socket.on('joined', function(data) {
+      var $el;
       _this.canned.addChat('white', data.userid, "<i>" + data.color + " joined</i>");
-      return $composeOthers.append($("<div>").attr('id', data.userid).addClass(data.color).text(""));
+      return $el = $composeOthers.append($("<div>").attr('id', data.userid).addClass(data.color).text(""));
     });
     socket.on('chat', function(data) {
       return _this.canned.addChat(data.color, data.userid, data.text);
@@ -64,17 +65,22 @@
       if (other.length === 0) {
         return $composeOthers.append($("<div>").attr('id', data.userid).addClass(data.color).text(data.text));
       } else {
-        return other.text(data.text);
+        if (_.isEmpty(data.text)) {
+          return other.text("");
+        } else {
+          return other.text("> " + data.text + "..");
+        }
       }
     });
     return {
       color: null,
       addChat: function(color, userid, text) {
-        var api, m;
+        var $el, api, m;
         m = $("#chat");
         api = m.jScrollPane().data('jsp');
-        api.getContentPane().append("<div class='message " + color + "'>" + text + "</div>");
-        return api.reinitialise();
+        $el = api.getContentPane().append("<div class='message " + color + "'>" + text + "</div>");
+        api.reinitialise();
+        return api.scrollToElement($el, false, false);
       }
     };
   };

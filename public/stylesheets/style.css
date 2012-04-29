@@ -35,7 +35,7 @@ a {
   font-style: italic;
 }
 
-#compose {
+#compose, #compose-others {
   padding: 5px;
 }
 
