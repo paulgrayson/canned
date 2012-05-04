@@ -107,9 +107,10 @@
       var $el, api, m;
       m = $("#chat");
       api = m.jScrollPane().data('jsp');
-      $el = api.getContentPane().append("<div class='message " + color + "'>" + text + "</div>");
+      $el = $("<div class='message " + color + "'>" + text + "</div>");
+      api.getContentPane().append($el);
       api.reinitialise();
-      return api.scrollToElement($el, false, false);
+      return api.scrollToElement($el, false, true);
     };
 
     CannedView.prototype.showJoined = function(userid, color) {
