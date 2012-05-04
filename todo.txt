@@ -12,6 +12,10 @@ D User can see what other users are typing
 * User can login
 * Users see their and others usernames
 
-* Fix race bug on startup
+D Fix race bug on startup
+D improved client code structure
+* Fix scroll, so latest message always visible
+* In client, make view list for events, app emit events
+
 
 

@@ -1,5 +1,5 @@
 logError = ( err )->
-  console.log( JSON.stringify( err, null, 2 ) )
+  console.log( "Error: #{JSON.stringify( err, null, 2 )}" )
 
 mongoConnect = ( callback )->
   Db = require('mongodb').Db
