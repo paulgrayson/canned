@@ -12,23 +12,23 @@ a {
   display: none;
 }
 
-#main, #chat, #compose {
-  width: 320px;
+body, #main, #chat, #compose {
+  max-width: 640px;
 }
 
 #main {
-  margin: 0 auto;
+/*  margin: 0 auto;*/
 }
 
 #chat {
-  height: 320px;
-  border: 1px solid #eee;
-  padding: 5px;
+  height: 310px;
+  /*border: 1px solid #eee;*/
+  /*padding: 5px;*/
 }
 
 .message {
   border-bottom: 1px solid #eee;
-  padding: 3px;
+  padding: 3px 8px;
 }
 
 .message.auto {
@@ -40,7 +40,6 @@ a {
 }
 
 #compose-text {
-  width: 240px;
 }
 
 .red {
@@ -62,3 +61,10 @@ a {
   background-color: black;
   color: yellow;
 }
+
+h1 {
+  margin: 0;
+  padding: 0 5px;
+  font-weight: normal;
+}
+
