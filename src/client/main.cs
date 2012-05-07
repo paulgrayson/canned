@@ -39,7 +39,8 @@ class CannedApp
     @socket.on 'chat', ( data )=>
       @listener.addMessage( data.userid, data.color, data.text )
     @socket.on 'typed', ( data )=>
-      @listener.showTyping( data.userid, data.color, data.text )
+      if data.userid != @userid
+        @listener.showTyping( data.userid, data.color, data.text )
 
 class CannedView
   constructor: ( app )->
@@ -84,14 +85,14 @@ class CannedView
     @$composeOthers.append($("<div>").attr( 'id', userid ).addClass( color ).text( "" ))
 
   showTyping: ( userid, color, text )->
-      other = $("##{userid}")
-      if other.length == 0
-        @$composeOthers.append($("<div>").attr( 'id', userid ).addClass( color ).text( text ))
+    other = $("##{userid}")
+    if other.length == 0
+      @$composeOthers.append($("<div>").attr( 'id', userid ).addClass( color ).text( text ))
+    else
+      if _.isEmpty( text )
+        other.text( "" )
       else
-        if _.isEmpty( text )
-          other.text( "" )
-        else
-          other.text( "> #{text}.." )
+        other.text( "> #{text}.." )
 
 
 $( ->

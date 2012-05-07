@@ -60,7 +60,9 @@
         return _this.listener.addMessage(data.userid, data.color, data.text);
       });
       return this.socket.on('typed', function(data) {
-        return _this.listener.showTyping(data.userid, data.color, data.text);
+        if (data.userid !== _this.userid) {
+          return _this.listener.showTyping(data.userid, data.color, data.text);
+        }
       });
     };
 

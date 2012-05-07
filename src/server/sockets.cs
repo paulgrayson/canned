@@ -2,7 +2,7 @@ exports.sockets = {
   connected: ( socket )->
     console.log( "connected" )
 
-    socket.on('login', ( userid )->
+    socket.on 'login', ( userid )->
       console.log( "Login: #{userid}" )
       mongoConnect ( err, db )->
         console.log( "db connected" )
@@ -24,7 +24,6 @@ exports.sockets = {
                   chat: chat
                 })
                 socket.broadcast.emit('joined', {userid: userid, color: color})
-    )
 
     socket.on 'chat', ( data )->
       console.log(data)
