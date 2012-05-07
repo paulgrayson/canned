@@ -10,12 +10,12 @@ class CannedApp
     @listener = listener
 
   chat: ( text ) ->
+    @listener.addMessage( @userid, @color, text )
     @socket.emit( 'chat', {
       color: @color
       userid: @userid
       text: text
     })
-    @listener.addMessage( @userid, @color, text )
 
   typed: ( text )->
     @socket.emit( 'typed', {
@@ -42,6 +42,17 @@ class CannedApp
       if data.userid != @userid
         @listener.showTyping( data.userid, data.color, data.text )
 
+  benchmark: ->
+    start = new Date()
+    for i in [1..1000]
+      @socket.emit( 'chat', {
+        color: @color
+        userid: @userid
+        text: "Hello #{i} and goodbye!"
+      })
+    stop = new Date()
+    ms = stop.getTime() - start.getTime()
+
 class CannedView
   constructor: ( app )->
     @app = app
@@ -54,20 +65,23 @@ class CannedView
     # init scroll panes
     $('.scroll-pane').jScrollPane()
  
-    @$composeSubmit.click( =>
+    @$composeSubmit.click =>
       if !_.isEmpty( @$composeText.attr( 'value' ) )
         text = @$composeText.attr('value')
         @app.chat( text )
         @$composeText.attr( 'value', '' )
         @app.typed( '' )
-    )
 
-    @$composeText.keyup( ( e )=>
+    @$composeText.keyup ( e )=>
       if e.keyCode == 13
         @$composeSubmit.click()
       else
         @app.typed( @$composeText.attr( 'value' ) )
-    )
+
+    $('#benchmark-submit').click =>
+      alert( "starting benchmark" )
+      time = @app.benchmark()
+      alert( "Took #{time}ms" )
 
   showColor: ( color )->
     @$compose.addClass( color )
@@ -93,7 +107,6 @@ class CannedView
         other.text( "" )
       else
         other.text( "> #{text}.." )
-
 
 $( ->
    app = new CannedApp( $('#userid').text() )

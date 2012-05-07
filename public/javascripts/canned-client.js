@@ -18,12 +18,12 @@
     };
 
     CannedApp.prototype.chat = function(text) {
-      this.socket.emit('chat', {
+      this.listener.addMessage(this.userid, this.color, text);
+      return this.socket.emit('chat', {
         color: this.color,
         userid: this.userid,
         text: text
       });
-      return this.listener.addMessage(this.userid, this.color, text);
     };
 
     CannedApp.prototype.typed = function(text) {
@@ -66,6 +66,20 @@
       });
     };
 
+    CannedApp.prototype.benchmark = function() {
+      var i, ms, start, stop, _i;
+      start = new Date();
+      for (i = _i = 1; _i <= 1000; i = ++_i) {
+        this.socket.emit('chat', {
+          color: this.color,
+          userid: this.userid,
+          text: "Hello " + i + " and goodbye!"
+        });
+      }
+      stop = new Date();
+      return ms = stop.getTime() - start.getTime();
+    };
+
     return CannedApp;
 
   })();
@@ -98,6 +112,12 @@
         } else {
           return _this.app.typed(_this.$composeText.attr('value'));
         }
+      });
+      $('#benchmark-submit').click(function() {
+        var time;
+        alert("starting benchmark");
+        time = _this.app.benchmark();
+        return alert("Took " + time + "ms");
       });
     }
 

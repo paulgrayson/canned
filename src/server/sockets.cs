@@ -1,12 +1,11 @@
-exports.sockets = {
-  connected: ( socket )->
-    console.log( "connected" )
+mongoConnect ( err, db )->
 
-    socket.on 'login', ( userid )->
-      console.log( "Login: #{userid}" )
-      mongoConnect ( err, db )->
-        console.log( "db connected" )
+  exports.sockets = {
+    connected: ( socket )->
+      console.log( "connected" )
 
+      socket.on 'login', ( userid )->
+        console.log( "Login: #{userid}" )
         fetchOrCreateUserColor db, userid, ( err, color )->
           if err
             logError( err )
@@ -25,17 +24,15 @@ exports.sockets = {
                 })
                 socket.broadcast.emit('joined', {userid: userid, color: color})
 
-    socket.on 'chat', ( data )->
-      console.log(data)
-      socket.broadcast.emit('chat', data)
-      mongoConnect ( err, db )->
-        console.log( "db connected" )
+      socket.on 'chat', ( data )->
+        console.log(data)
+        socket.broadcast.emit('chat', data)
         addMessage db, data.color, data.userid, data.text, ( err, docs )->
           console.log( "wrote #{docs}" )
       
-    socket.on 'typed', ( data )->
-      console.log( data )
-      socket.broadcast.emit('typed', data)
-}
+      socket.on 'typed', ( data )->
+        console.log( data )
+        socket.broadcast.emit('typed', data)
+  }
 
 
