@@ -1,4 +1,7 @@
+data/
 tmp/
 log/
 node_modules/
+*.swp
+
 
