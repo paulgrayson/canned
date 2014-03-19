@@ -41,16 +41,18 @@ class CannedView
 
   showJoined: ( userid, color )->
     this.addMessage( userid, 'white', "<i>#{color} joined</i>" )
-    @$composeOthers.append($("<div>").attr( 'id', userid ).addClass( color ).text( "" ))
+    @$composeOthers.append($("<div>").attr( 'id', userid ).addClass( color ).text(""))
 
   showTyping: ( userid, color, text )->
     other = $("##{userid}")
     if other.length == 0
-      @$composeOthers.append($("<div>").attr( 'id', userid ).addClass( color ).text( text ))
+      @$composeOthers.append($("<div>").attr( 'id', userid ).addClass( color ).text(text))
     else
       if _.isEmpty( text )
         other.text( "" )
+        other.hide()
       else
         other.text( "> #{text}.." )
+        other.show()
 
 
