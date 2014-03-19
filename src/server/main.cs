@@ -1,5 +1,5 @@
 logError = ( err )->
-  console.log( "error: #{JSON.stringify( err, null, 2 )}" )
+  console.log( "ERROR: #{JSON.stringify( err, null, 2 )}" )
 
 mongoConnect = ( callback )->
   console.log( "db connected" )
@@ -12,11 +12,13 @@ mongoConnect = ( callback )->
   port = if process.env['MONGO_NODE_DRIVER_PORT'] then process.env['MONGO_NODE_DRIVER_PORT'] else Connection.DEFAULT_PORT
 
   serverOptions = {
+    'safe': true,
+    'journal': true, 
     'auto_reconnect': true,
     'poolSize': 15
   }
 
-  db = new Db( 'canned', new Server( host, port, serverOptions ), {} )
+  db = new Db('canned', new Server(host, port), serverOptions)
 
   db.open( callback )
 
