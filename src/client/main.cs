@@ -28,6 +28,7 @@ class CannedApp
     @socket.emit( 'login', userid )
 
   initSocket: ->
+    # TODO DRY this
     @socket = io.connect('http://localhost:3000')
     @socket.on 'welcome', ( data )=>
       @color = data.color
