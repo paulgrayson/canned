@@ -22,13 +22,11 @@ body, #main, #chat, #compose {
 
 #chat {
   height: 310px;
-  /*border: 1px solid #eee;*/
-  /*padding: 5px;*/
 }
 
 .message {
-  border-bottom: 1px solid #eee;
-  padding: 3px 5px;
+  padding: 5px 5px;
+  margin: 3px 0;
 }
 
 .message.auto {
@@ -40,6 +38,10 @@ body, #main, #chat, #compose {
 }
 
 #compose-text {
+}
+
+.red, .blue, .yellow, .black {
+  padding: 5px 5px;
 }
 
 .red {

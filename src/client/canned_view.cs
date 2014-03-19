@@ -34,7 +34,7 @@ class CannedView
   addMessage: ( userid, color, text )->
     m = $("#chat")
     api = m.jScrollPane().data('jsp')
-    $el = $("<div class='message #{color}'>#{text}</div>")
+    $el = $("<div class='message'>#{userid}: <span class='#{color}'>#{text}</span></div>")
     api.getContentPane().append( $el )
     api.reinitialise()
     api.scrollToElement( $el, false, true )

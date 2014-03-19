@@ -1,4 +1,3 @@
-
 fetchOrCreateUserid = ( req, res )->
   userid = req.cookies['userid']
   if !userid
@@ -25,6 +24,7 @@ resetDb = (db, callback)->
         callback(err, db)
       )
   )
+
 
 exports.routes = {
 
