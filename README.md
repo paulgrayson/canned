@@ -23,4 +23,16 @@ node app.js
 Open a couple of browsers and point them at 0.0.0.0:3000
 
 
+# Building
+
+## To clean - delete compiled js..
+gulp clean
+
+## To build - compile to js..
+gulp build
+
+## To watch and build..
+gulp
+
+
 
