@@ -1,4 +1,4 @@
-!!!
+doctype html
 html
   head
     title= title
@@ -12,4 +12,7 @@ html
     script(type='text/javascript', src='/javascripts/canned-client.js')
     meta(name="viewport", content="width = device-width")
     meta(name="viewport", content="initial-scale = 1.0")
-  body!= body
+    block head
+  body
+    block content
+

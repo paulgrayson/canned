@@ -1,12 +1,15 @@
-div#userid.hidden #{userid}
-div#main
-  h1 Canned
-  input(type='submit', id="benchmark-submit", name="Benchmark")
-  div#chat.scroll-pane
-    div.message.auto Welcome
-  div#compose
-    input(type='text', id="compose-text")
-    input(type='submit', id="compose-submit")
-  div#compose-others
-    div Others typing shown below:
-  
+extends layout
+
+block content
+  div#userid.hidden #{userid}
+  div#main
+    h1 Canned
+    input(type='submit', id="benchmark-submit", name="Benchmark")
+    div#chat.scroll-pane
+      div.message.auto Welcome
+    div#compose
+      input(type='text', id="compose-text")
+      input(type='submit', id="compose-submit")
+    div#compose-others
+      div Others typing shown below:
+    
