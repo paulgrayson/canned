@@ -3,12 +3,13 @@
  * Module dependencies.
  */
 
-var express = require('express')
+var http = require('http')
+  , express = require('express')
   , canned = require('./lib/canned-server');
 
-var app = module.exports = express.createServer();
-
-var io = require('socket.io').listen(app);
+var app = express();
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
 
 // Configuration
 
@@ -40,6 +41,6 @@ io.sockets.on('connection', function (socket) {
   canned.sockets.connected( socket );
 });
 
-app.listen(3000, function(){
-  console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+server.listen(3000, function(){
+  console.log("Express server listening on port %d in %s mode", server.address().port, app.settings.env);
 });
