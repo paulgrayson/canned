@@ -53,9 +53,4 @@ class CannedView
       else
         other.text( "> #{text}.." )
 
-$( ->
-   app = new CannedApp( $('#userid').text() )
-   view = new CannedView( app )
-)
-
 
