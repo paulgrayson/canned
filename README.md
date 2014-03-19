@@ -14,7 +14,8 @@ Start mongodb e.g. mongod run --config /usr/local/Cellar/mongodb/2.0.4-x86_64/mo
 Install node.js e.g. on OSX brew install node
 Install npm e.g. curl http://npmjs.org/install.sh | sh
 
-cd into the cloned repo and run: npm link to install packages the app depends upon.
+cd into the cloned repo install packages by running
+npm install
 
 Run app with
 node app.js
