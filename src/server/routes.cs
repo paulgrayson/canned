@@ -14,19 +14,47 @@ render = ( res, userid, userColor )->
     userid: userid
   }
 
-# GET home page.
+resetDb = (db, callback)->
+  db.collection('chat', (err, chat)->
+    if err
+      logError(err)
+    else
+      chat.remove({}, {}, (err, numRemoved)->
+        if !err
+          console.log("Removed #{numRemoved} chats")
+        callback(err, db)
+      )
+  )
+
 exports.routes = {
-  index: ( req, res )->
+
+  index: (req, res)->
     userid = fetchOrCreateUserid( req, res )
-    mongoConnect ( err, db )->
+    mongoConnect((err, db)->
       if err
-        logError( err )
+        logError(err)
       else
-        fetchOrCreateUserColor db, userid, ( err, userColor )->
+        fetchOrCreateUserColor(db, userid, (err, userColor)->
           if err
-            logError( err )
+            logError(err)
             # TODO respond with error indication 
           else
-            render( res, userid, userColor )
+            render(res, userid, userColor)
+        )
+    )
+
+  reset: (req, res)->
+    console.log('reset!!!')
+    mongoConnect((err, db)->
+      if err
+        logError(err)
+      else
+        resetDb(db, (err, db)->
+          if err
+            logError(err)
+          else
+            res.redirect(301, '/')
+        )
+    )
 }
 

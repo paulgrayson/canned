@@ -28,7 +28,7 @@ body, #main, #chat, #compose {
 
 .message {
   border-bottom: 1px solid #eee;
-  padding: 3px 8px;
+  padding: 3px 5px;
 }
 
 .message.auto {
@@ -62,9 +62,12 @@ body, #main, #chat, #compose {
   color: yellow;
 }
 
-h1 {
+h1, #controls {
   margin: 0;
   padding: 0 5px;
+}
+
+h1 {
   font-weight: normal;
 }
 

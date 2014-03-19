@@ -28,6 +28,7 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', canned.routes.index);
+app.get('/reset', canned.routes.reset);
 
 
 // Sockets and Server
