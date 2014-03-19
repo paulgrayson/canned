@@ -1,8 +1,3 @@
-
-/**
- * Module dependencies.
- */
-
 var http = require('http')
   , express = require('express')
   , canned = require('./lib/canned-server');
@@ -10,8 +5,6 @@ var http = require('http')
 var app = express();
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
-
-// Configuration
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -31,11 +24,13 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
+
 // Routes
 
 app.get('/', canned.routes.index);
 
-// Sockets
+
+// Sockets and Server
 
 io.sockets.on('connection', function (socket) {
   canned.sockets.connected( socket );
