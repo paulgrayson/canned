@@ -23,3 +23,17 @@ addMessage = ( db, color, userid, text, callback )->
         userid: userid
         text: text
       }, callback )
+
+
+removeAllChats = (db, callback)->
+  db.collection('chat', (err, chat)->
+    if err
+      logError(err)
+    else
+      chat.remove({}, {}, (err, numRemoved)->
+        if !err
+          console.log("Removed #{numRemoved} chats")
+        callback(err, db)
+      )
+  )
+

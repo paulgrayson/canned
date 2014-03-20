@@ -30,7 +30,6 @@ app.configure('production', function(){
 app.get('/', canned.routes.index);
 app.get('/reset', canned.routes.reset);
 
-
 // Sockets and Server
 
 io.sockets.on('connection', function (socket) {

@@ -29,6 +29,11 @@ body, #main, #chat, #compose {
   margin: 3px 0;
 }
 
+.message span {
+  -moz-border-radius: 10px 5px;
+  border-radius: 9px 6px;
+}
+
 .message.auto {
   font-style: italic;
 }
