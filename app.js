@@ -24,11 +24,28 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
+// Use this middleware to prevent browser caching
+function nocache(req, res, next) {
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.header('Expires', '-1');
+  res.header('Pragma', 'no-cache');
+  next();
+}
+
 
 // Routes
 
 app.get('/', canned.routes.index);
-app.get('/reset', canned.routes.reset);
+app.get('/reset', nocache, canned.routes.reset);
+
+console.log(canned);
+
+var twitterLogin = new canned.TwitterLogin(canned.config.consumerKey, canned.config.consumerSecret);
+
+app.get('/login', nocache, function(req, res) { twitterLogin.loginAction(req, res) });
+
+app.get('/oauth-callback', function(req, res) { twitterLogin.callbackAction(req, res) });
+
 
 // Sockets and Server
 

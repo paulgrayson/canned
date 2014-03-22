@@ -1,0 +1,10 @@
+# TODO rename this file to config.cs
+exports.config = {
+
+  # TODO put your twitter app consumer key here
+  consumerKey: '<your consumer key here>',
+
+  # TODO put your twitter app consumer secret here
+  consumerSecret: '<your consumer secret here>',
+}
+
