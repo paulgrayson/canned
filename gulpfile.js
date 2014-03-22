@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var gulpif = require('gulp-if');
 var gutil = require('gulp-util');
 var concat = require('gulp-concat');
 var coffee = require('gulp-coffee');
@@ -23,12 +24,20 @@ var filenameAndPath = function(full) {
   };
 };
 
+var hasArg = function(arg) {
+  var args = process.argv.slice(2);
+  for(var i = 0; i < args.length; i++) {
+    if(args[i] == arg) return true;
+  }
+  return false;
+};
+
 var compile = function(srcGlob, dst) {
   var dstParts = filenameAndPath(dst);
   return gulp.src(srcGlob)
     .pipe(coffee({bare: true}).on('error', gutil.log))
     .pipe(concat(dstParts.filename))
-    .pipe(uglify())
+    .pipe(gulpif(!hasArg('--no-uglify'), uglify()))
     .pipe(gulp.dest(dstParts.path));
 };
 
