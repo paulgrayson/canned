@@ -23,35 +23,30 @@ class CannedView
       else
         @app.typed( @$composeText.attr( 'value' ) )
 
-    $('#benchmark-submit').click =>
-      alert( "starting benchmark" )
-      time = @app.benchmark()
-      alert( "Took #{time}ms" )
-
   showColor: ( color )->
     @$compose.addClass( color )
 
-  addMessage: ( userid, color, text )->
+  addMessage: ( userid, twitterId, color, text )->
     m = $("#chat")
     api = m.jScrollPane().data('jsp')
-    $el = $("<div class='message'>#{userid}: <span class='#{color}'>#{text}</span></div>")
+    $el = $("<div class='message'>#{twitterId}: <span class='#{color}'>#{text}</span></div>")
     api.getContentPane().append( $el )
     api.reinitialise()
     api.scrollToElement( $el, false, true )
 
-  showJoined: ( userid, color )->
-    this.addMessage( userid, 'white', "<i>#{color} joined</i>" )
+  showJoined: ( userid, twitterId, color )->
+    this.addMessage( userid, twitterId, 'white', "<i>#{twitterId} joined</i>" )
 
-  showTyping: ( userid, color, text )->
+  showTyping: ( userid, twitterId, color, text )->
     other = $("##{userid}")
     if other.length == 0
-      @$composeOthers.append($("<div>").attr( 'id', userid ).addClass( color ).text(text))
+      @$composeOthers.append($("<div>").attr( 'id', userid ).addClass( color ).addClass('message').text(text))
     else
       if _.isEmpty( text )
         other.text( "" )
         other.hide()
       else
-        other.text( "> #{text}.." )
+        other.text( "#{twitterId}: #{text}.." )
         other.show()
 
 

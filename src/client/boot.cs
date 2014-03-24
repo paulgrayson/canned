@@ -1,5 +1,5 @@
 $( ->
-  app = new CannedApp( $('#userid').text() )
+  app = new CannedApp( $('#userid').text(), $('#twitterId').text() )
   view = new CannedView( app )
 )
 

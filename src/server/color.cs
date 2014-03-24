@@ -14,7 +14,7 @@ assignUserColor = ->
   usedColors[color] = true;
   return color
 
-fetchOrCreateUserColor = ( db, userid, callback )->
+fetchOrCreateUserColor = ( db, userid, twitterId, callback )->
   db.collection 'user_colors', ( err, userColors )->
     if err
       logError( err )
@@ -28,7 +28,7 @@ fetchOrCreateUserColor = ( db, userid, callback )->
           console.log( userColor )
           if !userColor
             userColor = assignUserColor()
-            userColors.insert { userid: userid, color: userColor }, ( err, docs )->
+            userColors.insert { userid: userid, color: userColor, twitterId: twitterId }, ( err, docs )->
             if err
               logError( err )
             else

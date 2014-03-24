@@ -1,19 +1,21 @@
 class CannedApp
 
-  constructor: ( userid )->
+  constructor: ( userid, twitterId )->
     @userid = userid
+    @twitterId = twitterId
     @color = null
     this.initSocket()
-    this.login( @userid )
+    this.login(@userid, @twitterId)
 
   setListener: ( listener )->
     @listener = listener
 
   chat: ( text ) ->
-    @listener.addMessage( @userid, @color, text )
+    @listener.addMessage( @userid, @twitterId, @color, text )
     @socket.emit( 'chat', {
       color: @color
       userid: @userid
+      twitterId: @twitterId
       text: text
     })
 
@@ -22,10 +24,11 @@ class CannedApp
       color: @color
       userid: @userid
       text: text
+      twitterId: @twitterId
     })
 
-  login: ( userid )->
-    @socket.emit( 'login', userid )
+  login: ( userid, twitterId )->
+    @socket.emit( 'login', userid, twitterId )
 
   initSocket: ->
     # TODO DRY this
@@ -34,24 +37,12 @@ class CannedApp
       @color = data.color
       @listener.showColor( @color )
       for message in data.chat
-        @listener.addMessage( message.userid, message.color, message.text )
+        @listener.addMessage( message.userid, message.twitterId, message.color, message.text )
     @socket.on 'joined', ( data )=>
-      @listener.showJoined( data.userid, data.color )
+      @listener.showJoined( data.userid, data.twitterId, data.color )
     @socket.on 'chat', ( data )=>
-      @listener.addMessage( data.userid, data.color, data.text )
+      @listener.addMessage( data.userid, data.twitterId, data.color, data.text )
     @socket.on 'typed', ( data )=>
       if data.userid != @userid
-        @listener.showTyping( data.userid, data.color, data.text )
-
-  benchmark: ->
-    start = new Date()
-    for i in [1..1000]
-      @socket.emit( 'chat', {
-        color: @color
-        userid: @userid
-        text: "Hello #{i} and goodbye!"
-      })
-    stop = new Date()
-    ms = stop.getTime() - start.getTime()
-
+        @listener.showTyping( data.userid, data.twitterId, data.color, data.text )
 

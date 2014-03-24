@@ -4,8 +4,8 @@ mongoConnect ( err, db )->
     connected: ( socket )->
       console.log( "connected" )
 
-      socket.on 'login', ( userid )->
-        fetchOrCreateUserColor db, userid, ( err, color )->
+      socket.on 'login', ( userid, twitterId )->
+        fetchOrCreateUserColor db, userid, twitterId, ( err, color )->
           if err
             logError( err )
           else
@@ -14,15 +14,16 @@ mongoConnect ( err, db )->
                 logError( err )
               else
                 socket.emit("welcome", {
-                  userid: userid
+                  userid: userid,
+                  twitterId: twitterId,
                   color: color,
                   chat: chat
                 })
-                socket.broadcast.emit('joined', {userid: userid, color: color})
+                socket.broadcast.emit('joined', {userid: userid, twitterId: twitterId, color: color})
 
       socket.on 'chat', ( data )->
         socket.broadcast.emit('chat', data)
-        addMessage db, data.color, data.userid, data.text, ( err, docs )->
+        addMessage db, data.color, data.userid, data.twitterId, data.text, ( err, docs )->
           console.log( "wrote #{docs}" )
       
       socket.on 'typed', ( data )->

@@ -12,7 +12,7 @@ fetchChat = ( db, callback )->
           callback( err, messages )
           
 
-addMessage = ( db, color, userid, text, callback )->
+addMessage = ( db, color, userid, twitterId, text, callback )->
   db.collection 'chat', ( err, chat )->
     if err
       logError( err )
@@ -22,6 +22,7 @@ addMessage = ( db, color, userid, text, callback )->
         color: color
         userid: userid
         text: text
+        twitterId: twitterId
       }, callback )
 
 
