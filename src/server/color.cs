@@ -20,20 +20,21 @@ fetchOrCreateUserColor = ( db, userid, twitterId, callback )->
       logError( err )
       callback( err, null )
     else
-      userColors.findOne {userid: userid}, ( err, userColor )->
+      userColors.findAndModify(
+        {'userid': ""+ userid, 'twitterId': ""+ twitterId},
+        [['_id', 'asc']],
+        {$setOnInsert: {'userid': ""+userid, 'twitterId': ""+twitterId}},
+        {
+          new: true,
+          upsert: true
+        }
+      , (err, userColor)->
         if err
-          logError( err )
-          callback( err, null )
+          logError(err)
+          callback(err, null)
         else
-          console.log( userColor )
-          if !userColor
-            userColor = assignUserColor()
-            userColors.insert { userid: userid, color: userColor, twitterId: twitterId }, ( err, docs )->
-            if err
-              logError( err )
-            else
-              callback( null, userColor.color )
-          else
-            callback( null, userColor.color )
+          callback(null, userColor)
+      )
+
 
 
