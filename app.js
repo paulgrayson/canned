@@ -1,10 +1,11 @@
-var http = require('http')
-  , express = require('express')
-  , canned = require('./lib/canned-server');
-
+var http = require('http');
+var express = require('express');
+var canned = require('./lib/canned-server');
 var app = express();
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
+var mongo = require('mongodb');
+var port = 3000;
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -32,27 +33,29 @@ function nocache(req, res, next) {
   next();
 }
 
+var twitterLogin = new canned.TwitterLogin(canned.config.consumerKey, canned.config.consumerSecret);
 
-// Routes
+// Initialise mongo connection then start http
+var mongoUrl = function() {
+  var host = process.env['MONGO_NODE_DRIVER_HOST'] || 'localhost';
+  var port = process.env['MONGO_NODE_DRIVER_PORT'] || mongo.Connection.DEFAULT_PORT;
+  return 'mongodb://'+ host +':'+ port +'/canned';
+};
+
+mongo.MongoClient.connect(mongoUrl(), function(err, database) {
+  if(err) throw err;
+  global.db = database;
+  server.listen(port, function() {
+    console.log("Express server listening on port %d", port);
+  });
+  io.sockets.on('connection', function (socket) {
+    canned.sockets.connected( socket );
+    console.log("Listening on sockets");
+  });
+});
 
 app.get('/', canned.routes.index);
 app.get('/reset', nocache, canned.routes.reset);
-
-console.log(canned);
-
-var twitterLogin = new canned.TwitterLogin(canned.config.consumerKey, canned.config.consumerSecret);
-
 app.get('/login', nocache, function(req, res) { twitterLogin.loginAction(req, res) });
-
 app.get('/oauth-callback', function(req, res) { twitterLogin.callbackAction(req, res) });
 
-
-// Sockets and Server
-
-io.sockets.on('connection', function (socket) {
-  canned.sockets.connected( socket );
-});
-
-server.listen(3000, function(){
-  console.log("Express server listening on port %d in %s mode", server.address().port, app.settings.env);
-});

@@ -6,37 +6,26 @@ exports.routes = {
     if !twitterId
       res.redirect(301, '/login')
     else
-      mongoConnect((err, db)->
+      console.log("twitterId: #{twitterId}")
+      fetchOrCreateUserColor(global.db, userid, twitterId, (err, userColor)->
         if err
           logError(err)
+          # TODO respond with error indication 
         else
-          console.log("twitterId: #{twitterId}")
-          fetchOrCreateUserColor(db, userid, twitterId, (err, userColor)->
-            if err
-              logError(err)
-              # TODO respond with error indication 
-            else
-              res.render 'index', {
-                title: 'Canned'
-                color: userColor
-                userid: userid
-                twitterId: twitterId
-              }
-          )
+          res.render 'index', {
+            title: 'Canned'
+            color: userColor
+            userid: userid
+            twitterId: twitterId
+          }
       )
 
   reset: (req, res)->
-    mongoConnect((err, db)->
+    removeAllChats(global.db, (err, db)->
       if err
         logError(err)
       else
-        removeAllChats(db, (err, db)->
-          if err
-            logError(err)
-          else
-            res.redirect(301, '/')
-        )
+        res.redirect(301, '/')
     )
-
 }
 
