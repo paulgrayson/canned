@@ -1,6 +1,6 @@
 Chat system - playing around with node + coffeescript + socket.io + mongodb
 
-Canned is a chat app. It is for the sole purpose of playing with node + coffeescript + socket.io + mongodb.
+Canned is a chat app. It is for the sole purpose of playing with node + coffeescript + socket.io + mongodb + oauth.
 
 Chat usernames are twitter ids. When you go to '/' the app will redirect you to twitter to login and obtain your twitter id.
 
